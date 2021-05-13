@@ -84,6 +84,8 @@ impl WsConn {
 
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WsConn {
     fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
+        println!("{:?}", &msg);
+
         match msg {
             Ok(ws::Message::Ping(msg)) => {
                 self.hb = Instant::now();
@@ -101,7 +103,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WsConn {
                 ctx.stop();
             }
             Ok(ws::Message::Nop) => {}
-            Ok(Text(s)) => self.lobby_addr.do_send(ClientActorMessage {
+            Ok(ws::Message::Text(s)) => self.lobby_addr.do_send(ClientActorMessage {
                 id: self.id,
                 msg: s,
                 room_id: self.room,

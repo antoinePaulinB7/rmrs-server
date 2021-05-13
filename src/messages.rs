@@ -2,11 +2,11 @@ use actix::prelude::{Message, Recipient};
 use uuid::Uuid;
 
 #[derive(Message)]
-#[rtype(resul = "()")]
+#[rtype(result = "()")]
 pub struct WsMessage(pub String);
 
 #[derive(Message)]
-#[rtype(resul = "()")]
+#[rtype(result = "()")]
 pub struct Connect {
     pub addr: Recipient<WsMessage>,
     pub lobby_id: Uuid,
